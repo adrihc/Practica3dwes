@@ -1,17 +1,12 @@
 package com.esliceu.demo.controllers;
 
-import com.esliceu.demo.Model.User;
-import com.esliceu.demo.Model.UserForm;
 import com.esliceu.demo.Services.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-
-import java.util.List;
 
 @Controller
 public class AppController {
@@ -36,32 +31,17 @@ public class AppController {
         return "signup";
     }
     @PostMapping("/signup")
-    public String PostSignup(UserForm userform, BindingResult bindingResult){
-        List<ObjectError> errors = bindingResult.getAllErrors();
-        if (bindingResult.hasErrors()){
-            String userNameErr="";
-            String realNameErr="";
-            String realSurnameErr="";
-            String passwordErr="";
-            for (var e:errors){
-                if (e instanceof FieldError){
-                    if (((FieldError)e).getField().equals("userName")){
-                        userNameErr = "User Name:" + e.getDefaultMessage();
-                    }
-                    if (((FieldError)e).getField().equals("realName")){
-                        realNameErr = "Real Name:" + e.getDefaultMessage();
-                    }
-                    if (((FieldError)e).getField().equals("realSurname")){
-                        realSurnameErr = "Surname:" + e.getDefaultMessage();
-                    }
-                    if (((FieldError)e).getField().equals("password")){
-                        passwordErr = "Password:" + e.getDefaultMessage();
-                    }
-                }
-            }
-
+    public String PostSignup(String user, String password, String realName, String surname, HttpServletRequest sr){
+        System.out.println(user + password +realName + surname);
+        if (user.isEmpty()||password.isEmpty()||realName.isEmpty()||surname.isEmpty()) {
+            sr.setAttribute("errormessage","Todos los campos son obligatorios");
         }
-        return "signup";
+        String userNameErr="Ese nombre de usuario ya existe";
+        String passwordErr="La contraseña debe contener como máximo 18 caracteres";
+
+            return "signup";
+
+
     }
     @GetMapping("/settings")
     public String Settings(){
