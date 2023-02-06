@@ -1,5 +1,7 @@
 package com.esliceu.demo.DAO;
 
+import com.esliceu.demo.Model.Login;
+import com.esliceu.demo.Model.LoginRowMapper;
 import com.esliceu.demo.Model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -7,6 +9,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Locale;
 
 @Repository
 public class UsuariDAO {
@@ -19,7 +22,13 @@ public class UsuariDAO {
     }
     public List<String> usernameList(){
         String sql = "SELECT userName FROM users";
-        List<String> usernames = jdbcTemplate.query(sql, RowMapper<String>);
+        List<String> usernames = jdbcTemplate.queryForList(sql, String.class);
         return usernames;
+    }
+
+    public List<Login> login(){
+        String sql= " SELECT (`userName`, `password`) FROM users";
+        List<Login> loginList = jdbcTemplate.queryForList(sql, new LoginRowMapper());
+        return loginList;
     }
 }
