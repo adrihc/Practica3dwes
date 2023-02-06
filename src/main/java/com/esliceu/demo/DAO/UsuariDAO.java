@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -28,7 +29,8 @@ public class UsuariDAO {
 
     public List<Login> login(){
         String sql= " SELECT (`userName`, `password`) FROM users";
-        List<Login> loginList = jdbcTemplate.queryForList(sql, new LoginRowMapper());
+        //List<Login> loginList = jdbcTemplate.queryForList(sql, new LoginRowMapper());
+        List<Login> loginList = new ArrayList<>();
         return loginList;
     }
 }

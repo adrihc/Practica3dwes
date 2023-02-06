@@ -1,18 +1,19 @@
 package com.esliceu.demo.controllers;
 
 import com.esliceu.demo.DAO.UsuariDAO;
+import com.esliceu.demo.Model.Login;
 import com.esliceu.demo.Model.User;
 import com.esliceu.demo.Services.UserService;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.awt.*;
+import java.io.IOException;
 
 @Controller
 public class AppController {
@@ -27,24 +28,24 @@ public class AppController {
         return "login";
     }
     @PostMapping("/login")
-    public String PostLogin(String userName, String password, HttpServletRequest sr){
-
+    public String PostLogin(String userName, String password, HttpServletRequest sr, HttpSession session, HttpServletResponse resp) throws IOException {
         if (userService.login(userName,password)){
-            //Meter al usuario en la sesión y hacer un redirect hacia la nueva página
+            Login login = new Login();
+            login.setUserName(userName);
+            login.setPassword(password);
+            resp.sendRedirect("objects");
         } else {
             sr.setAttribute("loginError","La contraseña o el nombre de usuario son erroneos");
             return "login";
         }
-
         return "login";
     }
     @GetMapping("/signup")
     public String Signup(){
-        usuariDAO.usernameList();
         return "signup";
     }
     @PostMapping("/signup")
-    public String PostSignup(String userName, String password, String realName, String surname, HttpServletRequest sr, Model model){
+    public String PostSignup(String userName, String password, String realName, String surname, HttpServletRequest sr, HttpServletResponse resp) throws IOException {
         if (userName.isEmpty()||password.isEmpty()||realName.isEmpty()||surname.isEmpty()) {
             sr.setAttribute("errormessage","Todos los campos son obligatorios");
             return "signup";
@@ -56,9 +57,7 @@ public class AppController {
         } else if (!userService.tryExistence(userName)||password.length()<=18){
             User user = new User(userName,password,realName,surname);
             userService.addUser(user);
-
-            //Hacer un redirect a /login
-            return "login";
+            resp.sendRedirect("login");
         }
 
         return "signup";
