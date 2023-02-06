@@ -1,7 +1,6 @@
 package com.esliceu.demo.controllers;
 
 import com.esliceu.demo.DAO.UsuariDAO;
-import com.esliceu.demo.Model.Login;
 import com.esliceu.demo.Model.User;
 import com.esliceu.demo.Services.UserService;
 import jakarta.servlet.http.HttpServletRequest;
