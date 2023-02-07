@@ -18,8 +18,7 @@ import java.io.IOException;
 public class AppController {
     @Autowired
     UserService userService;
-    @Autowired
-    UsuariDAO usuariDAO;
+
     private BindingResult bindingResult;
 
     @GetMapping("/login")
@@ -29,9 +28,8 @@ public class AppController {
     @PostMapping("/login")
     public String PostLogin(String userName, String password, HttpServletRequest sr, HttpSession session, HttpServletResponse resp) throws IOException {
         if (userService.login(userName,password)){
-            Login login = new Login();
-            login.setUserName(userName);
-            login.setPassword(password);
+            User user = userService.getUser(userName);
+            session.setAttribute("user", user);
             resp.sendRedirect("objects");
         } else {
             sr.setAttribute("loginError","La contraseña o el nombre de usuario son erroneos");

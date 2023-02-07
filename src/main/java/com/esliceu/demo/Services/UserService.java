@@ -13,9 +13,8 @@ public class UserService {
     public void addUser(User user){
         userDAO.addUser(user);
     }
-    public User getUser(String username){
-        User user = new User("Adri","1234", "Adri", "Hernandez");
-        return user;
+    public User getUser(String userName){
+        return userDAO.getuser(userName);
     }
     public void newUser(String username, String password){
 
@@ -40,4 +39,5 @@ public class UserService {
         }
         return isLogin;
     }
+
 }
