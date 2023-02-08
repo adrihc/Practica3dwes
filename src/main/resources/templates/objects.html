@@ -5,6 +5,12 @@
     <title>Title</title>
 </head>
 <body>
-  <h1>Hello World!</h1>
+  <h1>Hello</h1>
+  <h1 th:text="${userName}"></h1>
+  <form action="/objects" method="post">
+      <label>Bucket name:</label><input type="text" name="bucketName"><br>
+      <input type="submit" value="create">
+      <h1 th:text="${bucketError}"></h1>
+  </form>
 </body>
 </html>

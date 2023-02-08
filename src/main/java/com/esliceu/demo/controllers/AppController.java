@@ -1,7 +1,9 @@
 package com.esliceu.demo.controllers;
 
 import com.esliceu.demo.DAO.UsuariDAO;
+import com.esliceu.demo.Model.Bucket;
 import com.esliceu.demo.Model.User;
+import com.esliceu.demo.Services.BucketService;
 import com.esliceu.demo.Services.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -18,9 +20,8 @@ import java.io.IOException;
 public class AppController {
     @Autowired
     UserService userService;
-
     @Autowired
-    UsuariDAO usuariDAO;
+    BucketService bucketService;
     private BindingResult bindingResult;
 
     @GetMapping("/login")
@@ -32,7 +33,7 @@ public class AppController {
     public String PostLogin(String userName, String password, HttpServletRequest sr, HttpSession session, HttpServletResponse resp) throws IOException {
         System.out.println(userName);
         if (userService.login(userName,password)){
-            User user = usuariDAO.getUser(userName);
+            User user = userService.getUser(userName);
             session.setAttribute("user", user);
             resp.sendRedirect("objects");
         } else {
@@ -67,10 +68,20 @@ public class AppController {
         return "start";
     }
     @GetMapping("/objects")
-    public String Objects(){
+    public String Objects(HttpSession session, HttpServletRequest sr){
+        User user = (User) session.getAttribute("user");
+        sr.setAttribute("userName", user.getUsername());
 
         return "objects";
     }
+
+    @PostMapping("/objects")
+    public String postObjects(HttpSession session, HttpServletRequest sr,String bucketName){
+        User user = (User) session.getAttribute("user");
+        bucketService.addBucket(user, bucketName);
+        return "objects";
+    }
+
     @GetMapping("/objects/{bucket}")
     public String ObjectsBuckets(){
 

@@ -5,9 +5,9 @@
     <title>Login</title>
 </head>
 <body>
-<form>
-    <label>Username:</label><input type="text"><br>
-    <label>Password:</label><input type="text"><br>
+<form action="/login" method="post">
+    <label>Username:</label><input type="text" name="userName"><br>
+    <label>Password:</label><input type="text" name="password"><br>
     <input type="submit" value="login">
     <a href="/signup">
         <input type="button" value="Signup">

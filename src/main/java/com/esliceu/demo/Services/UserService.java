@@ -19,9 +19,6 @@ public class UserService {
         userDAO.addUser(user);
     }
 
-    public void newUser(String username, String password){
-
-    }
     public boolean tryExistence(String username){
         for (User userList:userDAO.userList()) {
             if (userList.getUsername().equals(username)){
@@ -41,4 +38,7 @@ public class UserService {
         return isLogin;
     }
 
+    public User getUser(String userName) {
+        return userDAO.getUser(userName);
+    }
 }
