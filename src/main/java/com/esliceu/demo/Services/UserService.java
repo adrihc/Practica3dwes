@@ -10,18 +10,19 @@ public class UserService {
     @Autowired
     UsuariDAO userDAO;
 
-    public void addUser(User user){
+    public void addUser(String userName,String password,String realName,String surname){
+        User user = new User();
+        user.setUsername(userName);
+        user.setPassword(password);
+        user.setRealName(realName);
+        user.setSurname(surname);
         userDAO.addUser(user);
     }
-    public User getUser(String userName){
-        return userDAO.getuser(userName);
-    }
+
     public void newUser(String username, String password){
 
     }
     public boolean tryExistence(String username){
-        //Crear una clase que llame a usuarioDAO.usernameList y devuelva un booleano que diga si existe o no
-        //el usuario en la base de datos para luego hacer una comprobación en el controlador
         for (User userList:userDAO.userList()) {
             if (userList.getUsername().equals(username)){
                 return true;

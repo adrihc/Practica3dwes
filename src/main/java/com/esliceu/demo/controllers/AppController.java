@@ -19,16 +19,20 @@ public class AppController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    UsuariDAO usuariDAO;
     private BindingResult bindingResult;
 
     @GetMapping("/login")
     public String Login(){
+
         return "login";
     }
     @PostMapping("/login")
     public String PostLogin(String userName, String password, HttpServletRequest sr, HttpSession session, HttpServletResponse resp) throws IOException {
+        System.out.println(userName);
         if (userService.login(userName,password)){
-            User user = userService.getUser(userName);
+            User user = usuariDAO.getUser(userName);
             session.setAttribute("user", user);
             resp.sendRedirect("objects");
         } else {
@@ -37,6 +41,7 @@ public class AppController {
         }
         return "login";
     }
+
     @GetMapping("/signup")
     public String Signup(){
         return "signup";
@@ -51,12 +56,10 @@ public class AppController {
             sr.setAttribute("errormessageName","Ese nombre de usuario ya existe");
         } else if (password.length()>18) {
             sr.setAttribute("errormessagePassword","La contraseña debe contener como máximo 18 caracteres");
-        } else if (!userService.tryExistence(userName)||password.length()<=18){
-            User user = new User(userName,password,realName,surname);
-            userService.addUser(user);
+        } else if (userService.tryExistence(userName)||password.length()<=18){
+            userService.addUser(userName,password,realName,surname);
             resp.sendRedirect("login");
         }
-
         return "signup";
     }
     @GetMapping("/settings")
@@ -66,7 +69,7 @@ public class AppController {
     @GetMapping("/objects")
     public String Objects(){
 
-        return "";
+        return "objects";
     }
     @GetMapping("/objects/{bucket}")
     public String ObjectsBuckets(){
