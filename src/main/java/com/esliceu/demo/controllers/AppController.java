@@ -1,6 +1,5 @@
 package com.esliceu.demo.controllers;
 
-import com.esliceu.demo.DAO.UsuariDAO;
 import com.esliceu.demo.Model.Bucket;
 import com.esliceu.demo.Model.User;
 import com.esliceu.demo.Services.BucketService;
@@ -105,6 +104,12 @@ public class AppController {
     @GetMapping("/objects/{bucket}")
     public String ObjectsBuckets(){
 
+        return "";
+    }
+    @PostMapping("/objects/{bucket}")
+    public String PostObjectsBuckets(String bucket,HttpSession session){
+        User user = (User) session.getAttribute("user");
+        bucketService.delete(bucket,user);
         return "";
     }
     @GetMapping("/objects/{bucket}/{prefix}")

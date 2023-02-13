@@ -22,6 +22,10 @@ public class BucketRepo {
         List<Bucket> buckets = jdbcTemplate.query(sql, bucketMapper,username);
         return buckets;
     }
+    public void delete(String bucket, String owner){
+        String sql = "DELETE FROM buckets WHERE owner = ? AND `name` = ? ";
+        jdbcTemplate.update(sql,owner,bucket);
+    }
     private final RowMapper<Bucket> bucketMapper=(rs, rn)->{
         Bucket bucket = new Bucket();
         bucket.setId(rs.getInt("id"));
