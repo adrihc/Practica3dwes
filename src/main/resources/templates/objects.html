@@ -5,12 +5,19 @@
     <title>Title</title>
 </head>
 <body>
-  <h1>Hello</h1>
-  <h1 th:text="${userName}"></h1>
+    <h1>Hola [[${user}]]</h1>
+    <ul>
+        <li th:each="b : ${buckets}">
+            <a href="/objects">[[${b.name}]]</a>
+        </li>
+    </ul>
   <form action="/objects" method="post">
       <label>Bucket name:</label><input type="text" name="bucketName"><br>
       <input type="submit" value="create">
       <h1 th:text="${bucketError}"></h1>
   </form>
+    <a href="/settings">
+        <input type="button" value="Settings">
+    </a>
 </body>
 </html>

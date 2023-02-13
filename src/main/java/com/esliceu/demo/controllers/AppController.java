@@ -10,11 +10,13 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 public class AppController {
@@ -26,7 +28,6 @@ public class AppController {
 
     @GetMapping("/login")
     public String Login(){
-
         return "login";
     }
     @PostMapping("/login")
@@ -64,21 +65,40 @@ public class AppController {
         return "signup";
     }
     @GetMapping("/settings")
-    public String Settings(){
-        return "start";
+    public String Settings(HttpSession session, Model model){
+        User user = (User) session.getAttribute("user");
+        model.addAttribute("realName", user.getRealName());
+        model.addAttribute("surname", user.getSurname());
+        return "settings";
+    }
+    @PostMapping("/settings")
+    public String postSettings(HttpSession session,String password, String realName, String surname, Model model){
+        User user = (User) session.getAttribute("user");
+        user.setRealName(realName);
+        user.setPassword(password);
+        user.setSurname(surname);
+        userService.update(user);
+        session.setAttribute("user", user);
+        model.addAttribute("realName", user.getRealName());
+        model.addAttribute("surname", user.getSurname());
+        return "settings";
     }
     @GetMapping("/objects")
-    public String Objects(HttpSession session, HttpServletRequest sr){
+    public String Objects(HttpSession session, Model model, HttpServletRequest sr){
         User user = (User) session.getAttribute("user");
-        sr.setAttribute("userName", user.getUsername());
-
+        sr.setAttribute("user", user.getUsername());
+        List<Bucket> buckets = bucketService.recoverBuckets(user.getUsername());
+        model.addAttribute("buckets", buckets);
         return "objects";
     }
 
     @PostMapping("/objects")
-    public String postObjects(HttpSession session, HttpServletRequest sr,String bucketName){
+    public String postObjects(HttpSession session, HttpServletRequest sr,String bucketName, Model model){
         User user = (User) session.getAttribute("user");
         bucketService.addBucket(user, bucketName);
+        List<Bucket> buckets = bucketService.recoverBuckets(user.getUsername());
+        model.addAttribute("buckets", buckets);
+        sr.setAttribute("user", user.getUsername());
         return "objects";
     }
 

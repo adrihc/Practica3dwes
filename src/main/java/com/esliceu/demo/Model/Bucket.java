@@ -7,6 +7,7 @@ public class Bucket {
     String name;
     String uri;
     String owner;
+    int id;
 
     public String getName() {
         return name;
@@ -30,5 +31,13 @@ public class Bucket {
 
     public void setOwner(String owner) {
         this.owner = owner;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

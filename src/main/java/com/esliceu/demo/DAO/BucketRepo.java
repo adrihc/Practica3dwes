@@ -1,8 +1,10 @@
 package com.esliceu.demo.DAO;
 
 import com.esliceu.demo.Model.Bucket;
+import com.esliceu.demo.Model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -16,6 +18,16 @@ public class BucketRepo {
                 " VALUES(?,?,?)",bucket.getName(),bucket.getUri(), bucket.getOwner());
     }
     public List<Bucket> recoverBucket(String username){
-        return null;
+        String sql = "SELECT * FROM buckets WHERE owner = ?";
+        List<Bucket> buckets = jdbcTemplate.query(sql, bucketMapper,username);
+        return buckets;
     }
+    private final RowMapper<Bucket> bucketMapper=(rs, rn)->{
+        Bucket bucket = new Bucket();
+        bucket.setId(rs.getInt("id"));
+        bucket.setName(rs.getString("name"));
+        bucket.setUri(rs.getString("uri"));
+        bucket.setOwner(rs.getString("owner"));
+        return bucket;
+    };
 }

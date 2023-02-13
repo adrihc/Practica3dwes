@@ -32,6 +32,11 @@ public class UsuariDAO {
         List<User> user = jdbcTemplate.query(sql, userMapper,username);
         return user.get(0);
     }
+
+    public void update(User user){
+        String sql = "UPDATE `users` SET `realName` = ?,realSurname = ?, password  = ? WHERE `users`.`userName` = ?;";
+        jdbcTemplate.update(sql,user.getRealName(),user.getSurname(),user.getPassword(),user.getUsername());
+    }
     private final RowMapper<User> userMapper=(rs, rn)->{
         User user = new User();
         user.setUsername(rs.getString("userName"));
