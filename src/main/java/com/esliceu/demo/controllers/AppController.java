@@ -12,8 +12,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.naming.Context;
 import java.io.IOException;
 import java.util.List;
 
@@ -102,16 +105,18 @@ public class AppController {
     }
 
     @GetMapping("/objects/{bucket}")
-    public String ObjectsBuckets(){
-
-        return "";
+    public String ObjectsBuckets(@PathVariable("bucket") String bucketName){
+        System.out.println(bucketName);
+        return "bucket";
     }
     @PostMapping("/objects/{bucket}")
-    public String PostObjectsBuckets(String bucket,HttpSession session){
+    public void PostObjectsBuckets(@PathVariable("bucket") String bucketName,HttpSession session, HttpServletResponse resp) throws IOException {
+        System.out.println(bucketName);
         User user = (User) session.getAttribute("user");
-        bucketService.delete(bucket,user);
-        return "";
+        bucketService.delete(bucketName,user);
+        resp.sendRedirect("/objects");
     }
+
     @GetMapping("/objects/{bucket}/{prefix}")
     public String ObjectsPrefix(){
 

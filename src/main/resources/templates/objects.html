@@ -8,7 +8,7 @@
     <h1>Hola [[${user}]]</h1>
     <ul>
         <li th:each="b : ${buckets}">
-            <a href="/objects">[[${b.name}]]</a>
+            <a th:href="@{/objects/{bucket}(bucket=${b.name})}">[[${b.name}]]</a>
         </li>
     </ul>
   <form action="/objects" method="post">
