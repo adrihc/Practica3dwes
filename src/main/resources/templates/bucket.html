@@ -5,10 +5,23 @@
     <title>Title</title>
 </head>
 <body>
-<h1 th:text="${bucket}"></h1>
+    <h1 th:text="${bucket}"></h1>
+    <ul>
+        <li th:each="o : ${objects}">
+            [[${o.name}]]
+        </li>
+    </ul>
     <form th:action="@{/objects/{bucket}(bucket=${bucket})}" method="post">
+        Nom del objecte:<input type="text" name="name"><br>
+        Descripción:<input type="text" name="description"><br>
+        <input type="file" name="file"><br>
         <input type="hidden" name="bucket" th:value="${bucket}">
-        <input type="submit" value="Delete Bucket">
+        <input type="submit" value="Crea object"><br>
+        <h1 th:text="${objectError}"></h1>
+
     </form>
+    <a href="/objects">
+        <input type="button" value="Objects">
+    </a>
 </body>
 </html>

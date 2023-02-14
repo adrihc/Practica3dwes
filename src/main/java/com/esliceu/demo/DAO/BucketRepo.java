@@ -26,6 +26,11 @@ public class BucketRepo {
         String sql = "DELETE FROM buckets WHERE owner = ? AND `name` = ? ";
         jdbcTemplate.update(sql,owner,bucket);
     }
+    public Bucket getSpecificBucket(String name, String owner){
+        List<Bucket> bucket = jdbcTemplate.query("SELECT * FROM buckets WHERE name = ? AND owner = ?", bucketMapper,
+        name, owner);
+        return bucket.get(0);
+    }
     private final RowMapper<Bucket> bucketMapper=(rs, rn)->{
         Bucket bucket = new Bucket();
         bucket.setId(rs.getInt("id"));

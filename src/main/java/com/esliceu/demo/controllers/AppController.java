@@ -1,8 +1,11 @@
 package com.esliceu.demo.controllers;
 
+import com.esliceu.demo.DAO.ObjectsRepo;
+import com.esliceu.demo.Model.Object;
 import com.esliceu.demo.Model.Bucket;
 import com.esliceu.demo.Model.User;
 import com.esliceu.demo.Services.BucketService;
+import com.esliceu.demo.Services.ObjectService;
 import com.esliceu.demo.Services.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -14,9 +17,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.naming.Context;
 import java.io.IOException;
 import java.util.List;
 
@@ -26,10 +27,13 @@ public class AppController {
     UserService userService;
     @Autowired
     BucketService bucketService;
+    @Autowired
+    ObjectService objectService;
     private BindingResult bindingResult;
 
     @GetMapping("/login")
     public String Login(){
+
         return "login";
     }
     @PostMapping("/login")
@@ -97,21 +101,72 @@ public class AppController {
     @PostMapping("/objects")
     public String postObjects(HttpSession session, HttpServletRequest sr,String bucketName, Model model){
         User user = (User) session.getAttribute("user");
-        bucketService.addBucket(user, bucketName);
         List<Bucket> buckets = bucketService.recoverBuckets(user.getUsername());
-        model.addAttribute("buckets", buckets);
-        sr.setAttribute("user", user.getUsername());
-        return "objects";
+        for (Bucket b:buckets) {
+            if (b.getName().equals(bucketName)){
+                String bucketError = "Ese nombre ya está en uso";
+                model.addAttribute("bucketError", bucketError);
+                model.addAttribute("buckets", buckets);
+                return "objects";
+            }
+        }
+        if (bucketName.isEmpty()){
+            String bucketError = "Ese nombre no es valido";
+            model.addAttribute("bucketError", bucketError);
+            model.addAttribute("buckets", buckets);
+            return "objects";
+        } else {
+            bucketService.addBucket(user, bucketName);
+            buckets = bucketService.recoverBuckets(user.getUsername());
+            sr.setAttribute("user", user.getUsername());
+            model.addAttribute("buckets", buckets);
+            return "objects";
+        }
     }
 
     @GetMapping("/objects/{bucket}")
-    public String ObjectsBuckets(@PathVariable("bucket") String bucketName){
-        System.out.println(bucketName);
+    public String ObjectsBuckets(@PathVariable("bucket") String bucketName, HttpSession session, Model model){
+        User user= (User) session.getAttribute("user");
+        Bucket bucket = bucketService.recoverSpecificBucket(bucketName,user.getUsername());
+        List<Object> objects = objectService.recoverObjects(bucket);
+        model.addAttribute("objects", objects);
         return "bucket";
     }
     @PostMapping("/objects/{bucket}")
-    public void PostObjectsBuckets(@PathVariable("bucket") String bucketName,HttpSession session, HttpServletResponse resp) throws IOException {
-        System.out.println(bucketName);
+    public String PostObjectsBuckets(@PathVariable("bucket") String bucketName,HttpSession session, HttpServletResponse resp, String name, String description, Model model) throws IOException {
+        User user= (User) session.getAttribute("user");
+        Bucket bucket = bucketService.recoverSpecificBucket(bucketName,user.getUsername());
+        List<Object> objects = objectService.recoverObjects(bucket);
+        for (Object o: objects) {
+            if (o.getName().equals(name)){
+                String objectError = "Ese nombre ya existe";
+                model.addAttribute("objectError", objectError);
+                model.addAttribute("objects", objects);
+                return "bucket";
+            }
+        }
+        if (name.isEmpty()){
+            model.addAttribute("objects", objects);
+            String objectError = "Elija un nombre";
+            model.addAttribute("objectError", objectError);
+            model.addAttribute("objects", objects);
+            return "bucket";
+        } else{
+            objectService.addObject(name,description,user.getUsername(),bucket.getId());
+            objects = objectService.recoverObjects(bucket);
+            model.addAttribute("objects", objects);
+            return "bucket";
+        }
+    }
+
+
+    @GetMapping("/objects/{bucket}/{object}")
+    public String ObjectsObject(){
+
+        return "";
+    }
+    @PostMapping("/deletebucket/{bucket}")
+    public void deleteBucket(HttpSession session, String bucketName, HttpServletResponse resp) throws IOException {
         User user = (User) session.getAttribute("user");
         bucketService.delete(bucketName,user);
         resp.sendRedirect("/objects");
@@ -122,10 +177,4 @@ public class AppController {
 
         return "";
     }
-    @GetMapping("/objects/{bucket}/{object}")
-    public String ObjectsObject(){
-
-        return "";
-    }
-
 }

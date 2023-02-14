@@ -27,4 +27,8 @@ public class BucketService {
     public void delete(String bucket, User user){
         bucketRepo.delete(bucket, user.getUsername());
     }
+    public Bucket recoverSpecificBucket(String name, String userName){
+        Bucket bucket =  bucketRepo.getSpecificBucket(name, userName);
+        return bucket;
+    }
 }
