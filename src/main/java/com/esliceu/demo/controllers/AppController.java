@@ -1,6 +1,5 @@
 package com.esliceu.demo.controllers;
 
-import com.esliceu.demo.DAO.ObjectsRepo;
 import com.esliceu.demo.Model.Object;
 import com.esliceu.demo.Model.Bucket;
 import com.esliceu.demo.Model.User;
@@ -161,20 +160,19 @@ public class AppController {
 
 
     @GetMapping("/objects/{bucket}/{object}")
-    public String ObjectsObject(){
+    public String Object(@PathVariable("bucket") String bucket, @PathVariable("object") String object, HttpSession session, Model model){
+        User user = (User) session.getAttribute("user");
+        Bucket myBucket = bucketService.recoverSpecificBucket(bucket,user.getUsername());
+        Object myObject = objectService.specificObject(object,myBucket.getId());
+        model.addAttribute("objectDesc", myObject.getDescription());
 
-        return "";
+        return "object";
     }
     @PostMapping("/deletebucket/{bucket}")
-    public void deleteBucket(HttpSession session, String bucketName, HttpServletResponse resp) throws IOException {
+    public void deleteBucket(@PathVariable("bucket")String bucket, HttpSession session, HttpServletResponse resp) throws IOException {
         User user = (User) session.getAttribute("user");
-        bucketService.delete(bucketName,user);
+        bucketService.delete(bucket,user);
         resp.sendRedirect("/objects");
     }
 
-    @GetMapping("/objects/{bucket}/{prefix}")
-    public String ObjectsPrefix(){
-
-        return "";
-    }
 }

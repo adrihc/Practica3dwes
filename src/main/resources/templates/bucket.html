@@ -8,7 +8,8 @@
     <h1 th:text="${bucket}"></h1>
     <ul>
         <li th:each="o : ${objects}">
-            [[${o.name}]]
+            <a th:href="@{/objects/{bucket}/{object}(bucket=${bucket}, object=${o.name})}">[[${o.name}]]</a>
+            </form>
         </li>
     </ul>
     <form th:action="@{/objects/{bucket}(bucket=${bucket})}" method="post">
@@ -18,7 +19,9 @@
         <input type="hidden" name="bucket" th:value="${bucket}">
         <input type="submit" value="Crea object"><br>
         <h1 th:text="${objectError}"></h1>
-
+    </form>
+    <form th:action="@{/deletebucket/{bucket}(bucket=${bucket})}" method="post">
+        <input type="submit" value="Borra bucket"><br>
     </form>
     <a href="/objects">
         <input type="button" value="Objects">

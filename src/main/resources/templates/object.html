@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Objeto [[${object}]]</h1>
+[[${objectDesc}]]
+<a href="/objects">
+    <input type="button" value="Objects">
+</a>
+<a th:href="@{/objects/{bucket}(bucket=${bucket})}">
+    <input type="button" th:value="${bucket}">
+</a>
+</body>
+</html>

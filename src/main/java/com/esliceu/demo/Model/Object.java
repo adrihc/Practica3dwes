@@ -6,7 +6,7 @@ public class Object {
     String description;
     String owner;
     int bucket_id;
-
+    int versionId;
     public int getId() {
         return id;
     }

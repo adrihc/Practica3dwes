@@ -23,4 +23,13 @@ public class ObjectService {
     public List<Object> recoverObjects(Bucket bucket){
         return objectsRepo.recoverObjects(bucket.getId());
     }
+    public Object specificObject(String name, int bucket_id){
+        List<Object> objects= objectsRepo.recoverObjects(bucket_id);
+        for (Object o:objects) {
+            if (o.getName().equals(name)){
+                return o;
+            }
+        }
+        return null;
+    }
 }
