@@ -9,13 +9,12 @@
     <ul>
         <li th:each="o : ${objects}">
             <a th:href="@{/objects/{bucket}/{object}(bucket=${bucket}, object=${o.name})}">[[${o.name}]]</a>
-            </form>
         </li>
     </ul>
-    <form th:action="@{/objects/{bucket}(bucket=${bucket})}" method="post">
+    <form th:action="@{/objects/{bucket}(bucket=${bucket})}" method="post" enctype="multipart/form-data">
         Nom del objecte:<input type="text" name="name"><br>
         Descripción:<input type="text" name="description"><br>
-        <input type="file" name="file"><br>
+        <input type="file" name="file" accept="*/*"><br>
         <input type="hidden" name="bucket" th:value="${bucket}">
         <input type="submit" value="Crea object"><br>
         <h1 th:text="${objectError}"></h1>

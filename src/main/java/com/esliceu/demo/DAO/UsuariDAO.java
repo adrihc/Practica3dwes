@@ -45,4 +45,9 @@ public class UsuariDAO {
         user.setSurname(rs.getString("realSurname"));
         return user;
     };
+
+    public void deleteUser(User user) {
+        String sql = "DELETE FROM users WHERE `userName` = ?;";
+        jdbcTemplate.update(sql,user.getUsername());
+    }
 }

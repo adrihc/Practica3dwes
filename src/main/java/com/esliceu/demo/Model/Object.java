@@ -1,12 +1,42 @@
 package com.esliceu.demo.Model;
 
+import java.sql.Time;
+import java.util.Date;
+
 public class Object {
     int id;
     String name;
     String description;
     String owner;
     int bucket_id;
-    int versionId;
+    int version;
+    Date lastModified;
+    Time lastModifiedTime;
+
+    public Time getLastModifiedTime() {
+        return lastModifiedTime;
+    }
+
+    public void setLastModifiedTime(Time lastModifiedTime) {
+        this.lastModifiedTime = lastModifiedTime;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
+    }
+
+    public Date getLastModified() {
+        return lastModified;
+    }
+
+    public void setLastModified(Date lastModified) {
+        this.lastModified = lastModified;
+    }
+
     public int getId() {
         return id;
     }
