@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1 th:text="${bucket}"></h1>
+    <ul>
+        <li th:each="o : ${objects}">
+            <a th:href="@{/objects/{bucket}/{object}(bucket=${bucket}, object=${o.name})}">[[${o.name}]]</a>
+        </li>
+    </ul>
+    <form th:action="@{/objects/{bucket}(bucket=${bucket})}" method="post" enctype="multipart/form-data">
+        Nom del objecte:<input type="text" name="name"><br>
+        Descripción:<input type="text" name="description"><br>
+        <input type="file" name="file" accept="*/*"><br>
+        <input type="hidden" name="bucket" th:value="${bucket}">
+        <input type="submit" value="Crea object"><br>
+        <h1 th:text="${objectError}"></h1>
+    </form>
+    <form th:action="@{/deletebucket/{bucket}(bucket=${bucket})}" method="post">
+        <input type="submit" value="Borra bucket"><br>
+    </form>
+    <a href="/objects">
+        <input type="button" value="Objects">
+    </a>
+</body>
+</html>

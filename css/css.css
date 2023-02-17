@@ -1,10 +1,4 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="UTF-8">
-    <title>Register</title>
-    <style>
-        *{
+*{
     font-family: 'Courier New', Courier, monospace;
 
 }
@@ -17,8 +11,7 @@ body{
     width: 100%;
     display: flex;
     justify-content: center;
-    margin-left: 5%;
-    margin-top: 10%;
+
 }
 
 input[type = text]{
@@ -72,21 +65,3 @@ input[type=submit]:hover, input[type=button]:hover{
     box-sizing: border-box;
 
 }
-    </style>
-</head>
-<body>
-    <div id="content">
-<form action="/signup" method="post">
-    <label>Usuario</label><input type="text" name="userName"><br>
-    <label>Contraseña</label><input type="text" name="password"><br>
-    <label>Nombre</label><input type="text" name="realName"><br>
-    <label>Apellidos</label><input type="text" name="surname"><br>
-    <h1 th:text="${errormessage}"></h1>
-    <h1 th:text="${errormessageName}"></h1>
-    <h1 th:text="${errormessagePassword}"></h1>
-
-    <input type="submit" value="register">
-</form>
-</div>
-</body>
-</html>

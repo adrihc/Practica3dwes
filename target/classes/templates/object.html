@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Objeto <a th:href="@{/download/{objid}/{fid} (objid=${objid}, fid=${fid})}" target="_blank">[[${object}]]</a></h1>
+Description: [[${objectDesc}]]<br>
+Last modified: [[${objectLastModified}]] | [[${objectLastModifiedTime}]]<br>
+Version: V.[[${version}]]<br>
+Tamaño del archivo: [[${length}]] kb<br>
+
+<form th:action="@{/objects/{bucket}/{object}(bucket=${bucket}, object=${object})}" method="post" enctype="multipart/form-data">
+    <input type="file" name="file" accept="*/*"><br>
+    <input type="submit" value="Actualiza Objeto"><br>
+</form>
+
+<a href="/objects">
+    <input type="button" value="Objects">
+</a>
+
+
+<a th:href="@{/objects/{bucket}(bucket=${bucket})}">
+    <input type="button" th:value="${bucket}">
+</a>
+<form method="post" th:action="@{/objects/{bucket}/{object}(bucket=${bucket}, object=${object})}">
+    <input type="submit" value="Borrar objeto">
+</form>
+
+</body>
+</html>

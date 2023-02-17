@@ -18,10 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 
 @Controller
 public class ObjectController {
@@ -72,8 +69,8 @@ public class ObjectController {
     public void download(@PathVariable("objid") int objectId, @PathVariable("fid") int fileId, HttpServletResponse resp) throws IOException {
         DataFile dataFile = fileService.recoverFile(objectId);
         resp.setContentType("application/force-download");
-        resp.addHeader(dataFile.getFileName(), "attachment;fileName=");
         OutputStream outputStream = resp.getOutputStream();
+        byte[] body = dataFile.getBody();
         try{
             outputStream.write(dataFile.getBody(),0,(int)dataFile.getContentLength());
         } catch (Exception e){
