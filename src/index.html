@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css.css">
+</head>
+
+<body>
+    
+    <div id="objects">
+        <form th:action="/objects" method="get">
+            <input type="submit" value="Objects"><br>
+        </form>    
+    </div>
+    <h1>[[${bucket}]]</h1>
+    
+    <div id="content">
+        <ul>
+            <li th:each="o : ${objects}">
+                <a th:href="@{/objects/{bucket}/{object}(bucket=${bucket}, object=${o.name})}">[[${o.name}]]</a>
+            </li>
+        </ul>
+    </div>
+    <div id="form">
+        <form th:action="@{/objects/{bucket}(bucket=${bucket})}" method="post" enctype="multipart/form-data">
+            <label class="normal">Nombre del objeto</label><br></brZ><input type="text" name="name"><br>
+            <label class="normal">Descripción</label><br><input type="text" name="description"><br>
+            <label id="file">
+                <span class="ref">
+                <input type="file" name="file" accept="*/*"><br>
+            </span>
+            </label>
+            <input type="hidden" name="bucket" th:value="${bucket}">
+            <br>
+            <input type="submit" value="Crear objeto"><br>
+            <h1 th:text="${objectError}"></h1>
+        </form>
+    </div>
+    
+    <form th:action="@{/deletebucket/{bucket}(bucket=${bucket})}" method="post">
+        <input type="submit" value="Borra bucket"><br>
+    </form>
+
+</body>
+
+</html>

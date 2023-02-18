@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form action="/settings" method="post">
+        Contraseña:<input type="text" name="password"><br>
+        Nombre real:<input type="text" name="realName" th:value="${realName}"><br>
+        Apellidos:<input type="text" name="surname" th:value="${surname}"><br>
+        <input type="submit" value="Cambia">
+    </form>
+    <a href="/objects">
+        <input type="button" value="Objects">
+    </a>
+    <form action="/deleteuser" method="post">
+        <input type="submit" value="Delete User">
+    </form>
+</body>
+</html>

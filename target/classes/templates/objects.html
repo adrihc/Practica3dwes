@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            font-family: 'Courier New', Courier, monospace;
+        }
+        a{
+            font-size: 30px;
+            color: black;
+            transition: 0.2s;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        a:hover{
+            color: rgb(240, 240, 240);
+            transition: 0.2s;
+        }
+        a:link, a:visited{
+            text-decoration: none;
+        }
+    
+        body{
+            background-color: rgb(15, 175, 95);
+        }
+        h1{
+            position: absolute;
+            width: 80%;
+            top: 0px;
+        }
+        #content{
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-top: 0%;
+        }
+        #form{
+            margin-top: 5%;
+            width: 110%;
+            display: flex;
+            justify-content: center;
+        }
+        #settings{
+            width: 100%;
+            display: flex;
+            justify-content: right;
+        }
+        input[type = text]{
+            width: 100%;
+            margin: 0px 0px 15px;
+            padding: 12px 20px;
+            border-style: none;
+            border-radius: 15px;
+            height: 50px;
+            width: 350px;
+            background-color: rgb(8, 100, 54);
+            font-size: large;
+            box-sizing: border-box;
+            color: rgb(240, 240, 240);
+            transition: 0.2s;
+        }
+        input[type = text]:hover{
+            background-color: rgb(5, 65, 35);
+            height: 70px;
+            width: 370px;
+            padding: 22px 30px;
+
+            transition: 0.2s;
+        }
+        input[type = text]:focus{
+            color: black;
+            outline: 2px solid rgb(97, 23, 87);
+            background-color: rgb(21, 248, 135);
+        }
+        label{
+            font-size: 30px;
+            margin-left: 5%;
+        }
+        input[type=submit], input[type=button]{
+            border-style: none;
+            border-radius: 15px;
+            font-size: 25px;
+            color: rgb(240, 240, 240);
+            padding: 20px 50px 20px 40px;
+            background-color: rgb(8, 100, 54);
+            transition: 0.2s;
+            box-sizing: border-box;
+        }
+        input[type=submit]:hover, input[type=button]:hover{
+            padding: 30px 60px 30px 50px;
+            transition: 0.2s;
+            background-color: rgb(5, 65, 35);
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+
+<body>
+<div id="settings">
+    <form action="/settings" method="get">
+        <input type="submit" value="Settings">
+    </form>
+</div>
+<h1>Hola [[${user}]]</h1>
+<div id="content">
+    <ul>
+        <li th:each="b : ${buckets}">
+            <a th:href="@{/objects/{bucket}(bucket=${b.name})}">[[${b.name}]]</a>
+        </li>
+    </ul>
+</div>
+<div id="form">
+    <form action="/objects" method="post">
+        <label>Bucket name</label><input type="text" name="bucketName"><br>
+        <input type="submit" value="Create">
+        <h1 th:text="${bucketError}"></h1>
+    </form>
+</div>
+</body>
+
+</html>
