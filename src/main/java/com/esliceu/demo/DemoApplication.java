@@ -18,7 +18,7 @@ public class DemoApplication implements WebMvcConfigurer {
 		registry.addInterceptor(new MyAuthInterceptor())
 				.addPathPatterns("/objects")
 				.addPathPatterns("/objects/{bucket}")
-				.addPathPatterns("/objects/{bucket}/object")
+				.addPathPatterns("/objects/{bucket}/{object}")
 				.addPathPatterns("/settings")
 				.addPathPatterns("/deleteobj/{bucket}/{object}")
 				.addPathPatterns("/download/{objid}/{fid}")
