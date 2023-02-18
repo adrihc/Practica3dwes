@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css.css">
+</head>
+
+<body>
+    
+        <h1>Hola [[${user}]]</h1>
+        <ul>
+            <li th:each="b : ${buckets}">
+                <a th:href="@{/objects/{bucket}(bucket=${b.name})}">[[${b.name}]]</a>
+            </li>
+        </ul>
+        <form action="/objects" method="post">
+            <label>Bucket name:</label><input type="text" name="bucketName"><br>
+            <input type="submit" value="create">
+            <h1 th:text="${bucketError}"></h1>
+        </form>
+        <a href="/settings">
+            <input type="button" value="Settings">
+        </a>
+    
+</body>
+
+</html>
