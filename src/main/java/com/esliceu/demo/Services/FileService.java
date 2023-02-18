@@ -19,7 +19,7 @@ public class FileService {
 
     public DataFile createDataFile(Bucket bucket, MultipartFile file, Object object) throws IOException {
         DataFile df = new DataFile();
-        df.setFileName(file.getName());
+        df.setFileName(file.getOriginalFilename());
         df.setContentLength(file.getSize());
         df.setBody(file.getBytes());
         df.setVersion(1);

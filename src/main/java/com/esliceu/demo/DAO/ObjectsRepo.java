@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class ObjectsRepo {
+public class ObjectsRepo implements ObjectsRepoInterface{
     @Autowired
     JdbcTemplate jdbcTemplate;
 

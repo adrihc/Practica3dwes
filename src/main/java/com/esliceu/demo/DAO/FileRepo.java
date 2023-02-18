@@ -13,7 +13,7 @@ import javax.xml.crypto.Data;
 import java.util.List;
 
 @Repository
-public class FileRepo {
+public class FileRepo implements FileRepoInterface{
     @Autowired
     JdbcTemplate jdbcTemplate;
     public void addFile(DataFile file){

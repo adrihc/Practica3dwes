@@ -1,20 +1,104 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
 <head>
     <meta charset="UTF-8">
     <title>Register</title>
+    <style>
+        * {
+            font-family: 'Courier New', Courier, monospace;
+
+        }
+
+        body {
+            background-color: rgb(15, 175, 95);
+        }
+
+        #content {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-top: 10%;
+        }
+
+        input[type=text] {
+            width: 100%;
+            margin: 0px 0px 15px;
+            padding: 12px 20px;
+            border-style: none;
+            border-radius: 15px;
+            height: 50px;
+            width: 500px;
+            background-color: rgb(8, 100, 54);
+            font-size: large;
+            box-sizing: border-box;
+            color: rgb(240, 240, 240);
+            transition: 0.2s;
+        }
+
+        input[type=text]:hover {
+            background-color: rgb(5, 65, 35);
+            height: 70px;
+            width: 520px;
+            padding: 22px 30px;
+            transition: 0.2s;
+        }
+
+        input[type=text]:focus {
+            color: black;
+            outline: 2px solid rgb(97, 23, 87);
+            background-color: rgb(21, 248, 135);
+        }
+
+        label {
+            font-size: 30px;
+            margin-left: 24%;
+        }
+
+        input[type=submit],
+        input[type=button] {
+            border-style: none;
+            border-radius: 15px;
+            font-size: 25px;
+            color: rgb(240, 240, 240);
+            padding: 20px 50px 20px 40px;
+            background-color: rgb(8, 100, 54);
+            transition: 0.2s;
+            box-sizing: border-box;
+        }
+
+        h1{
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+        input[type=submit]:hover,
+        input[type=button]:hover {
+            padding: 30px 60px 30px 50px;
+            transition: 0.2s;
+            background-color: rgb(5, 65, 35);
+
+            box-sizing: border-box;
+
+        }
+    </style>
 </head>
+
 <body>
-<form action="/signup" method="post">
-    <label>Usuario:</label><input type="text" name="userName"><br>
-    <label>Contraseña:</label><input type="text" name="password"><br>
-    <label>Nombre real:</label><input type="text" name="realName"><br>
-    <label>Apellidos:</label><input type="text" name="surname"><br>
+    <div id="content">
+        <form action="/signup" method="post">
+            <label>Usuario</label><br><input type="text" name="userName"><br>
+            <label>Contraseña</label><br><input type="text" name="password"><br>
+            <label>Nombre</label><br><input type="text" name="realName"><br>
+            <label>Apellidos</label><br><input type="text" name="surname"><br>
+
+
+            <input type="submit" value="register">
+        </form>
+    </div>
     <h1 th:text="${errormessage}"></h1>
     <h1 th:text="${errormessageName}"></h1>
     <h1 th:text="${errormessagePassword}"></h1>
-
-    <input type="submit" value="register">
-</form>
 </body>
+
 </html>

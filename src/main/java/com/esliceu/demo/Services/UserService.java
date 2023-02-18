@@ -1,6 +1,6 @@
 package com.esliceu.demo.Services;
 
-import com.esliceu.demo.DAO.UsuariDAO;
+import com.esliceu.demo.DAO.UserRepo;
 import com.esliceu.demo.Model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
     @Autowired
-    UsuariDAO userDAO;
+    UserRepo userDAO;
 
     public void addUser(String userName,String password,String realName,String surname){
         User user = new User();

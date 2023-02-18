@@ -16,7 +16,12 @@ public class DemoApplication implements WebMvcConfigurer {
 	@Override
 	public void addInterceptors(InterceptorRegistry registry){
 		registry.addInterceptor(new MyAuthInterceptor())
-				.addPathPatterns("/login1")
-				.addPathPatterns("/object/**");
+				.addPathPatterns("/objects")
+				.addPathPatterns("/objects/{bucket}")
+				.addPathPatterns("/objects/{bucket}/object")
+				.addPathPatterns("/settings")
+				.addPathPatterns("/deleteobj/{bucket}/{object}")
+				.addPathPatterns("/download/{objid}/{fid}")
+				.addPathPatterns("/deleteuser");
 	}
 }

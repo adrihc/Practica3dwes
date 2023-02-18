@@ -42,7 +42,6 @@ public class BucketController {
     }
     @PostMapping("/objects/{bucket}")
     public String PostObjectsBuckets(@PathVariable("bucket") String bucketName, HttpSession session, HttpServletResponse resp, String name, String description, Model model, MultipartFile file) throws IOException {
-        System.out.println(file.getContentType());
         User user= (User) session.getAttribute("user");
         Bucket bucket = bucketService.recoverSpecificBucket(bucketName,user.getUsername());
         List<Object> objects = objectService.recoverObjects(bucket);
@@ -57,6 +56,12 @@ public class BucketController {
         if (name.isEmpty()){
             model.addAttribute("objects", objects);
             String objectError = "Elija un nombre";
+            model.addAttribute("objectError", objectError);
+            model.addAttribute("objects", objects);
+            return "bucket";
+        } else if (file.isEmpty()) {
+            model.addAttribute("objects", objects);
+            String objectError = "Elija un archivo";
             model.addAttribute("objectError", objectError);
             model.addAttribute("objects", objects);
             return "bucket";

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class BucketRepo {
+public class BucketRepo implements BucketRepoInterface {
     @Autowired
     JdbcTemplate jdbcTemplate;
     public void addBucket(Bucket bucket){

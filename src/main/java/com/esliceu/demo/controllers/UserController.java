@@ -102,6 +102,7 @@ public class UserController {
     @PostMapping("/objects")
     public String postObjects(HttpSession session, HttpServletRequest sr,String bucketName, Model model){
         User user = (User) session.getAttribute("user");
+        sr.setAttribute("user", user.getUsername());
         List<Bucket> buckets = bucketService.recoverBuckets(user.getUsername());
         for (Bucket b:buckets) {
             if (b.getName().equals(bucketName)){
@@ -129,6 +130,7 @@ public class UserController {
     public void deleteUser(HttpSession session, HttpServletResponse resp) throws IOException {
         User user = (User) session.getAttribute("user");
         userService.deleteUser(user);
+        session.setAttribute("user", null);
         resp.sendRedirect("/login");
     }
 
