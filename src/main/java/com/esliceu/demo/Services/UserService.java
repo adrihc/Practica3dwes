@@ -5,11 +5,13 @@ import com.esliceu.demo.Model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 @Service
 public class UserService {
     @Autowired
     UserRepo userDAO;
-
     public void addUser(String userName,String password,String realName,String surname){
         User user = new User();
         user.setUsername(userName);
@@ -48,5 +50,6 @@ public class UserService {
     public void deleteUser(User user) {
         userDAO.deleteUser(user);
     }
+
 
 }

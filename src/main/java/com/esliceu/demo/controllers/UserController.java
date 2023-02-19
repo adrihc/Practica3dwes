@@ -2,10 +2,7 @@ package com.esliceu.demo.controllers;
 
 import com.esliceu.demo.Model.Bucket;
 import com.esliceu.demo.Model.User;
-import com.esliceu.demo.Services.BucketService;
-import com.esliceu.demo.Services.FileService;
-import com.esliceu.demo.Services.ObjectService;
-import com.esliceu.demo.Services.UserService;
+import com.esliceu.demo.Services.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -28,16 +25,18 @@ public class UserController {
     ObjectService objectService;
     @Autowired
     FileService fileService;
-
+    @Autowired
+    Encrypter encrypter;
     @GetMapping("/login")
     public String Login(){
-
+        String string = encrypter.SHA256("hola");
+        System.out.println(string);
         return "login";
     }
     @PostMapping("/login")
     public String PostLogin(String userName, String password, HttpServletRequest sr, HttpSession session, HttpServletResponse resp) throws IOException {
         System.out.println(userName);
-        if (userService.login(userName,password)){
+        if (userService.login(userName, encrypter.SHA256(password))){
             User user = userService.getUser(userName);
             session.setAttribute("user", user);
             resp.sendRedirect("objects");
@@ -63,7 +62,7 @@ public class UserController {
         } else if (password.length()>18) {
             sr.setAttribute("errormessagePassword","La contraseña debe contener como máximo 18 caracteres");
         } else if (userService.tryExistence(userName)||password.length()<=18){
-            userService.addUser(userName,password,realName,surname);
+            userService.addUser(userName, encrypter.SHA256(password), realName,surname);
             resp.sendRedirect("login");
         }
         return "signup";
