@@ -8,40 +8,54 @@
 </head>
 
 <body>
-    
-    <div id="objects">
-        <form th:action="/objects" method="get">
-            <input type="submit" value="Objects"><br>
-        </form>    
+    <div id="buttons">
+        <form method="get" action="/objects">
+            <input type="submit" value="Objetos">
+        </form>
+
+        <form method="get" th:action="@{/objects/{bucket}(bucket=${bucket})}">
+            <input type="submit" value="${bucket}">
+        </form>
     </div>
-    <h1>[[${bucket}]]</h1>
-    
-    <div id="content">
-        <ul>
-            <li th:each="o : ${objects}">
-                <a th:href="@{/objects/{bucket}/{object}(bucket=${bucket}, object=${o.name})}">[[${o.name}]]</a>
-            </li>
-        </ul>
-    </div>
+    <h1>Objeto <a th:href="@{/download/{objid}/{fid} (objid=${objid}, fid=${fid})}" target="_blank">[[${object}]]</a>
+    </h1>
+    <table>
+        <tr>
+            <th class="left-table-top">Descripción</th>
+            <th class="rigth-table-top">[[${objectDesc}]]</th>
+        </tr>
+        <tr>
+            <th class="left-table">Ultima modificación</th>
+            <th class="rigth-table">[[${objectLastModified}]] | [[${objectLastModifiedTime}]]</th>
+        </tr>
+        <tr>
+            <th class="left-table">Versión</th>
+            <th class="rigth-table">V.[[${version}]]</th>
+        </tr>
+        <tr>
+            <th class="left-table-bottom">Tamaño del archivo</th>
+            <th class="rigth-table-bottom">[[${length}]] Kb</th>
+        </tr>
+    </table>
+
     <div id="form">
-        <form th:action="@{/objects/{bucket}(bucket=${bucket})}" method="post" enctype="multipart/form-data">
-            <label class="normal">Nombre del objeto</label><br></brZ><input type="text" name="name"><br>
-            <label class="normal">Descripción</label><br><input type="text" name="description"><br>
+        <form th:action="@{/objects/{bucket}/{object}(bucket=${bucket}, object=${object})}" method="post"
+            enctype="multipart/form-data">
             <label id="file">
                 <span class="ref">
-                <input type="file" name="file" accept="*/*"><br>
-            </span>
+                    <input type="file" name="file" accept="*/*"><br>
+                </span>
             </label>
-            <input type="hidden" name="bucket" th:value="${bucket}">
-            <br>
-            <input type="submit" value="Crear objeto"><br>
-            <h1 th:text="${objectError}"></h1>
+            <input id="update" type="submit" value="Actualiza Objeto"><br>
+        </form>
+    </div>
+
+    <div id="delete">
+        <form method="post" th:action="@{/objects/{bucket}/{object}(bucket=${bucket}, object=${object})}">
+            <input type="submit" value="Borrar objeto">
         </form>
     </div>
     
-    <form th:action="@{/deletebucket/{bucket}(bucket=${bucket})}" method="post">
-        <input type="submit" value="Borra bucket"><br>
-    </form>
 
 </body>
 

@@ -1,32 +1,224 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        *{
+    font-family: 'Courier New', Courier, monospace;
+}
+h1{
+    position: absolute;
+    width: 80%;
+    display: flex;
+    justify-content: left;
+    top: 20px;
+}
+a{
+    font-size: 30px;
+    color: white;
+    transition: 0.2s;
+    font-family: 'Courier New', Courier, monospace;
+    
+}
+a:hover{
+    color: rgb(8, 100, 54);
+    transition: 0.2s;
+}
+a:link, a:visited{
+    text-decoration: none;
+}
+body{
+    background-color: rgb(15, 175, 95);
+}
+label{
+    font-size: 30px;
+    margin-left: 5%;
+}
+.ref::before {
+    margin-left: 30px;
+    margin-right: 30px;
+    content: "Subir archivo";
+}
+#file {
+    display: inline-block;
+    cursor: pointer;
+    border-style: none;
+    border-radius: 15px;
+    font-size: 25px;
+    color: rgb(240, 240, 240);
+    padding: 20px 50px 20px 40px;
+    background-color: rgb(8, 100, 54);
+    transition: 0.2s;
+    box-sizing: border-box;
+}
+#file:hover {
+    padding: 30px 60px 30px 50px;
+    transition: 0.2s;
+    background-color: rgb(5, 65, 35);
+    box-sizing: border-box;
+}
+#form {
+    margin-top: 5%;
+    width: 100%;
+    display: grid;
+    justify-content: center;
+}
+#update{
+    position: relative;
+    top: 10px;
+    left: 40px;
+}
+#buttons{
+    width: 100%;
+    display: grid;
+    justify-content: right;
+}
+#delete{
+    position: absolute;
+    width: 100%;
+    display: grid;
+    justify-content: right;
+    right: 10px;
+    bottom: 10px;
+}
+table{
+    display: flex;
+    justify-content: center;
+    top: 10%;
+    border-collapse: collapse;
+}
+tbody{
+    border-radius: 20px;
+    background-color: rgb(19, 216, 118);
+    border: 1px rgb(15, 175, 95);
+}
+.left-table-top{
+    border-radius: 20px 0px 0px 0px;
+}
+.left-table-bottom{
+    border-radius: 0px 0px 0px 20px;
+}
+.left-table, .left-table-top{
+    border-bottom: 1px solid rgba(0, 0, 0, 0.384);
+}
+.left-table, .left-table-top, .left-table-bottom{
+    border-right: 1px solid rgba(0, 0, 0, 0.384);
+}
+.rigth-table-top{
+    border-radius: 0px 20px 0px 0px;
+}
+.rigth-table-bottom{
+    border-radius: 0px 0px 20px 0px;
+}
+.rigth-table, .rigth-table-top{
+    border-bottom: 1px solid rgba(0, 0, 0, 0.384);
+}
+tr:hover{
+background-color: rgba(0, 0, 0, 0.384);
+}
+input[type = text]{
+    width: 100%;
+    margin: 0px 0px 15px;
+    padding: 12px 20px;
+    border-style: none;
+    border-radius: 15px;
+    height: 50px;
+    width: 350px;
+    background-color: rgb(8, 100, 54);
+    font-size: large;
+    box-sizing: border-box;
+    color: rgb(240, 240, 240);
+    transition: 0.2s;
+}
+input[type = text]:hover{
+    background-color: rgb(5, 65, 35);
+    height: 70px;
+    width: 370px;
+    padding: 22px 30px;
+
+    transition: 0.2s;
+}
+input[type = text]:focus{
+    color: black;
+    outline: 2px solid rgb(97, 23, 87);
+    background-color: rgb(21, 248, 135);
+}
+
+input[type=file]{
+    display: none;
+}
+
+input[type=submit], input[type=button]{
+    border-style: none;
+    border-radius: 15px;
+    font-size: 25px;
+    color: rgb(240, 240, 240);
+    padding: 20px 50px 20px 40px;
+    background-color: rgb(8, 100, 54);
+    transition: 0.2s;
+    box-sizing: border-box;
+}
+input[type=submit]:hover, input[type=button]:hover,input[type=file]:hover{
+    padding: 30px 60px 30px 50px;
+    transition: 0.2s;
+    background-color: rgb(5, 65, 35);
+    box-sizing: border-box;
+}
+    </style>
 </head>
+
 <body>
-<h1>Objeto <a th:href="@{/download/{objid}/{fid} (objid=${objid}, fid=${fid})}" target="_blank">[[${object}]]</a></h1>
-Description: [[${objectDesc}]]<br>
-Last modified: [[${objectLastModified}]] | [[${objectLastModifiedTime}]]<br>
-Version: V.[[${version}]]<br>
-Tamaño del archivo: [[${length}]] kb<br>
+    <div id="buttons">
+        <form method="get" action="/objects">
+            <input type="submit" value="Objetos">
+        </form>
 
-<form th:action="@{/objects/{bucket}/{object}(bucket=${bucket}, object=${object})}" method="post" enctype="multipart/form-data">
-    <input type="file" name="file" accept="*/*"><br>
-    <input type="submit" value="Actualiza Objeto"><br>
-</form>
+        <form method="get" th:action="@{/objects/{bucket}(bucket=${bucket})}">
+            <input type="submit" th:value="${bucket}">
+        </form>
+    </div>
+    <h1>Objeto <a th:href="@{/download/{objid}/{fid} (objid=${objid}, fid=${fid})}" target="_blank">[[${object}]]</a>
+    </h1>
+    <table>
+        <tr>
+            <th class="left-table-top">Descripción</th>
+            <th class="rigth-table-top">[[${objectDesc}]]</th>
+        </tr>
+        <tr>
+            <th class="left-table">Ultima modificación</th>
+            <th class="rigth-table">[[${objectLastModified}]] | [[${objectLastModifiedTime}]]</th>
+        </tr>
+        <tr>
+            <th class="left-table">Versión</th>
+            <th class="rigth-table">V.[[${version}]]</th>
+        </tr>
+        <tr>
+            <th class="left-table-bottom">Tamaño del archivo</th>
+            <th class="rigth-table-bottom">[[${length}]] Kb</th>
+        </tr>
+    </table>
 
-<a href="/objects">
-    <input type="button" value="Objects">
-</a>
+    <div id="form">
+        <form th:action="@{/objects/{bucket}/{object}(bucket=${bucket}, object=${object})}" method="post"
+            enctype="multipart/form-data">
+            <label id="file">
+                <span class="ref">
+                    <input type="file" name="file" accept="*/*"><br>
+                </span>
+            </label>
+            <input id="update" type="submit" value="Actualiza Objeto"><br>
+        </form>
+    </div>
 
-
-<a th:href="@{/objects/{bucket}(bucket=${bucket})}">
-    <input type="button" th:value="${bucket}">
-</a>
-<form method="post" th:action="@{/objects/{bucket}/{object}(bucket=${bucket}, object=${object})}">
-    <input type="submit" value="Borrar objeto">
-</form>
+    <div id="delete">
+        <form method="post" th:action="@{/objects/{bucket}/{object}(bucket=${bucket}, object=${object})}">
+            <input type="submit" value="Borrar objeto">
+        </form>
+    </div>
+    
 
 </body>
+
 </html>

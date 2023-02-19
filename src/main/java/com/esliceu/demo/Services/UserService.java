@@ -48,4 +48,5 @@ public class UserService {
     public void deleteUser(User user) {
         userDAO.deleteUser(user);
     }
+
 }

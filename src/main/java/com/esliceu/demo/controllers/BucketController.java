@@ -65,6 +65,12 @@ public class BucketController {
             model.addAttribute("objectError", objectError);
             model.addAttribute("objects", objects);
             return "bucket";
+        } else if (description.isEmpty()||description.length()>300) {
+            model.addAttribute("objects", objects);
+            String objectError = "Elija una descripción válida";
+            model.addAttribute("objectError", objectError);
+            model.addAttribute("objects", objects);
+            return "bucket";
         } else{
             objectService.addObject(name,description,user.getUsername(),bucket.getId(),1);
             objects = objectService.recoverObjects(bucket);
