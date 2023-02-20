@@ -36,10 +36,4 @@ public class FileService {
         return fileRepo.recoverFile(objectId);
     }
 
-    public void updateFile(MultipartFile multipartFile,int id) throws IOException {
-        DataFile dataFile = fileRepo.recoverFile(id);
-        dataFile.setBody(multipartFile.getBytes());
-        fileRepo.updateFile(dataFile);
-    }
-
 }

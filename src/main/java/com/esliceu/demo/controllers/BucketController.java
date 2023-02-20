@@ -41,7 +41,7 @@ public class BucketController {
         return "bucket";
     }
     @PostMapping("/objects/{bucket}")
-    public String PostObjectsBuckets(@PathVariable("bucket") String bucketName, HttpSession session, HttpServletResponse resp, String name, String description, Model model, MultipartFile file) throws IOException {
+    public String PostObjectsBuckets(@PathVariable("bucket") String bucketName, HttpSession session, String name, String description, Model model, MultipartFile file) throws IOException {
         User user= (User) session.getAttribute("user");
         Bucket bucket = bucketService.recoverSpecificBucket(bucketName,user.getUsername());
         List<Object> objects = objectService.recoverObjects(bucket);

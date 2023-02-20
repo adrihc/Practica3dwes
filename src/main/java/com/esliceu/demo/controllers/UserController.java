@@ -27,10 +27,9 @@ public class UserController {
     FileService fileService;
     @Autowired
     Encrypter encrypter;
+
     @GetMapping("/login")
     public String Login(){
-        String string = encrypter.SHA256("hola");
-        System.out.println(string);
         return "login";
     }
     @PostMapping("/login")
@@ -80,6 +79,8 @@ public class UserController {
         user.setRealName(realName);
         if (password.isEmpty()){
             password = user.getPassword();
+        } else {
+            password = encrypter.SHA256(password);
         }
         user.setPassword(password);
         user.setSurname(surname);
